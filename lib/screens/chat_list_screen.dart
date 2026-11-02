@@ -1,3 +1,4 @@
+/// หน้ารวมแชตส่วนตัว แชตกลุ่ม และคำเชิญเข้าทีม รวมถึงค้นหาสมาชิกและตอบคำขอ.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class ChatListScreen extends StatefulWidget {
   State<ChatListScreen> createState() => _ChatListScreenState();
 }
 
+/// จัดการแท็บคำเชิญและแชต รวม query ของห้องส่วนตัว/กลุ่มและสถานะการโหลด.
 class _ChatListScreenState extends State<ChatListScreen> {
   int _reloadKey = 0;
   bool _showInvitations = false;
@@ -45,6 +47,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
     });
   }
 
+  /// ซ่อนห้องจากรายการของผู้ใช้ โดยไม่ลบข้อมูลห้องหรือประวัติของสมาชิกคนอื่น.
   Future<void> _hideChat(
     DocumentReference<Map<String, dynamic>> reference,
     String chatName,
@@ -132,6 +135,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
     return DateTime.fromMillisecondsSinceEpoch(0);
   }
 
+  /// เปิดฟอร์มสร้างกลุ่มและนำทางไปยังห้องกลุ่มเมื่อสร้างสำเร็จ.
   Future<void> _createGroup() async {
     final group = await showCreateGroupDialog(context);
     if (!mounted || group == null) return;
@@ -149,6 +153,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
     );
   }
 
+  /// ค้นหาบัญชีผู้ใช้เพื่อเริ่มแชตหรือเพิ่มสมาชิก โดยนำผลไปแสดงใน dialog.
   Future<void> _searchUsers() async {
     final profile = await showDialog<_UserSearchResult>(
       context: context,
@@ -165,6 +170,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
     );
   }
 
+  /// เจ้าของโพสต์ตอบรับ/ปฏิเสธคำขอ และปรับจำนวนสมาชิก/สถานะโพสต์เมื่อรับเข้าทีม.
   Future<void> _respondToJoinRequest(
     QueryDocumentSnapshot<Map<String, dynamic>> request, {
     required bool accept,
@@ -279,6 +285,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
     }
   }
 
+  /// อ่าน joinRequests ใต้บัญชีเจ้าของและแสดงสถานะ/ปุ่มจัดการคำเชิญ.
   Widget _buildInvitations(String uid) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: FirebaseFirestore.instance
@@ -379,6 +386,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
     );
   }
 
+  /// โหลดห้องส่วนตัวและกลุ่มของผู้ใช้ แล้วกรองด้วยคำค้นก่อนสร้างรายการแชต.
   Widget _buildGroups(String uid, String keyword) {
     final groups = FirebaseFirestore.instance.collection('groupChats');
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -953,6 +961,7 @@ class _SearchUsersDialog extends StatefulWidget {
   State<_SearchUsersDialog> createState() => _SearchUsersDialogState();
 }
 
+/// สถานะและ UI ของหน้าต่างค้นหาผู้ใช้ แยกจากรายการแชตหลัก.
 class _SearchUsersDialogState extends State<_SearchUsersDialog> {
   final _controller = TextEditingController();
   final _currentUid = FirebaseAuth.instance.currentUser?.uid;

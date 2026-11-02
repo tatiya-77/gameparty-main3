@@ -1,3 +1,4 @@
+/// หน้าฟีดหลักและตัวประสานฟีเจอร์โพสต์: สร้าง/แก้ไข/ลบ คอมเมนต์ ปฏิกิริยา รายงาน และส่งคำขอเข้าทีม.
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +24,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+/// สถานะของหน้าฟีด รวมตัวกรอง ช่องค้นหา และชุด ID ที่ใช้กันคำขอเข้าทีมซ้ำ.
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   final Set<String> _sentJoinRequestPostIds = <String>{};
@@ -55,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// ซิงก์ชื่อและข้อมูลพื้นฐานจาก Firebase Auth ไป users/{uid} เพื่อให้ค้นหาผู้ใช้ได้.
   Future<void> _ensureSearchableUserProfile(User user) async {
     final authName = user.displayName?.trim() ?? '';
     final fallbackName = authName.isNotEmpty
@@ -149,6 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // สร้างโพสต์ใหม่
   // ==========================================
 
+  /// เปิดฟอร์มสร้างโพสต์ อัปโหลดสื่อก่อน แล้วบันทึกเนื้อหาและสถานะทีมใน posts collection.
   Future<void> _createPost() async {
     final user = FirebaseAuth.instance.currentUser;
 
@@ -236,6 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ) =>
       _setPostReaction(doc, emoji);
 
+  /// ใช้ Firestore transaction อ่านปฏิกิริยาเดิมและบันทึกปฏิกิริยาใหม่โดยไม่เขียนทับกัน.
   Future<void> _setPostReaction(
     DocumentSnapshot<Map<String, dynamic>> doc,
     String requestedReaction,
@@ -386,6 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // คอมเมนต์
   // ==========================================
 
+  /// เปิดรายการคอมเมนต์ของโพสต์และจัดการช่องพิมพ์/ส่งคอมเมนต์.
   Future<void> _showComments(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) async {
@@ -594,6 +600,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// เพิ่มคอมเมนต์ลง subcollection ของโพสต์ พร้อมอัปเดตจำนวนและแจ้งเจ้าของเมื่อเกี่ยวข้อง.
   Future<void> _addComment(
     DocumentSnapshot<Map<String, dynamic>> doc,
     TextEditingController controller,
@@ -664,6 +671,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// ลบคอมเมนต์ตามสิทธิ์และปรับจำนวนคอมเมนต์ให้สอดคล้อง.
   Future<void> _deleteComment(
     DocumentSnapshot<Map<String, dynamic>> post,
     QueryDocumentSnapshot<Map<String, dynamic>> comment,
@@ -698,6 +706,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // แก้ไขโพสต์
   // ==========================================
 
+  /// เปิดแบบฟอร์มแก้ไขโพสต์ของเจ้าของ และบันทึกฟิลด์ที่แก้กลับ Firestore.
   Future<void> _editPost(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) async {
@@ -825,6 +834,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // ลบโพสต์
   // ==========================================
 
+  /// ขอการยืนยันก่อนลบโพสต์ของผู้ใช้ปัจจุบันออกจาก Firestore.
   Future<void> _deletePost(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) async {
@@ -873,6 +883,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // รายงานโพสต์
   // ==========================================
 
+  /// บันทึกรายงานแบบ ID คงที่ postId_reporterUid เพื่อกันรายงานซ้ำ และแจ้งเจ้าของโพสต์.
   Future<void> _reportPost(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) async {
@@ -1002,6 +1013,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // เมนูของโพสต์
   // ==========================================
 
+  /// แสดงเมนูการกระทำของโพสต์ เช่น แก้ไข ลบ หรือรายงาน ตามว่าเป็นโพสต์ของใคร.
   Future<void> _showPostMenu(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) async {
@@ -1070,6 +1082,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // การ์ดโพสต์
   // ==========================================
 
+  /// แปลง snapshot ของ Firestore เป็น PostCard พร้อม callback สำหรับปฏิกิริยาและเมนู.
   Widget _buildPostCard(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) {
@@ -1182,6 +1195,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return data;
   }
 
+  /// ตรวจว่าโพสต์ยังเปิดรับและทีมยังไม่เต็ม ก่อนสร้างคำขอใน users/{owner}/joinRequests.
   Future<void> _requestJoin(
     DocumentSnapshot<Map<String, dynamic>> doc,
   ) async {
@@ -1341,6 +1355,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  /// นำทางไปกล่องแจ้งเตือนของผู้ใช้ที่กำลังเข้าสู่ระบบ.
   Future<void> _openNotifications() async {
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
@@ -1354,6 +1369,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // ==========================================
 
   @override
+  /// ประกอบหน้าแรก: feed แบบ stream, ทางลัดเกม, badge แอดมิน/แจ้งเตือน และ bottom navigation.
   Widget build(BuildContext context) {
     if (_currentPage == 1) {
       return DiscoverScreen(
@@ -1697,6 +1713,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+/// ฟอร์มแยกสำหรับเลือกเกม กรอกหัวข้อ/รายละเอียด จำนวนสมาชิก และเลือกไฟล์แนบ.
 class _CreatePostDialog extends StatefulWidget {
   const _CreatePostDialog({
     required this.games,
@@ -1745,6 +1762,7 @@ class _CreatePostDialogState extends State<_CreatePostDialog> {
     super.dispose();
   }
 
+  /// เปิดตัวเลือกรูปหรือวิดีโอจากเครื่อง และเก็บไฟล์ไว้รออัปโหลดตอน submit.
   Future<void> _chooseMedia({required bool video}) async {
     try {
       final media = video
@@ -1777,6 +1795,7 @@ class _CreatePostDialogState extends State<_CreatePostDialog> {
     }
   }
 
+  /// ตรวจค่าฟอร์มและส่งข้อมูลกลับ callback ของหน้าหลัก โดยกันการส่งซ้ำระหว่างกำลังบันทึก.
   Future<void> _submit() async {
     if (_isSubmitting) return;
     final title = _titleController.text.trim();

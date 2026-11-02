@@ -1,3 +1,4 @@
+/// หน้าสมัครและเข้าสู่ระบบด้วย Firebase Authentication รวมถึงการขอรีเซ็ตรหัสผ่าน.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
+/// เก็บค่าฟอร์มและสถานะกำลังทำงาน; controller ทั้งหมดต้อง dispose เมื่อปิดหน้า.
 class _LoginScreenState extends State<LoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
@@ -26,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  /// ตรวจข้อมูลก่อน แล้วเลือกสมัครบัญชีหรือเข้าสู่ระบบตาม _isRegister จากนั้นรายงานผลให้ผู้ใช้.
   Future<void> _submit() async {
     final email = _email.text.trim();
     final password = _password.text;
@@ -143,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  /// ส่งอีเมลลิงก์รีเซ็ตรหัสผ่านผ่าน Firebase Auth หลังตรวจรูปแบบอีเมลเบื้องต้น.
   Future<void> _resetPassword() async {
     final email = _email.text.trim();
 
@@ -199,6 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  /// แสดงผลสำเร็จหรือข้อผิดพลาดใน SnackBar บนหน้าปัจจุบัน.
   void _showMessage(String message) {
     if (!mounted) return;
 

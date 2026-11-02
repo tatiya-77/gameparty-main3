@@ -1,3 +1,4 @@
+/// หน้าโปรไฟล์ของตนเองหรือผู้ใช้อื่น รองรับแก้ข้อมูล ติดตาม แชต ดูโพสต์ และตั้งค่าความเป็นส่วนตัว.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
+/// รองรับดูโปรไฟล์ตัวเองหรือคนอื่น โดย _targetUid เลือก UID เป้าหมายและ _isOwnProfile คุมสิทธิ์ UI.
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -65,6 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.dispose();
   }
 
+  /// สร้างเอกสารโปรไฟล์เริ่มต้นให้เจ้าของบัญชีเมื่อยังไม่มี โดยไม่เขียนทับข้อมูลที่มี.
   Future<void> _ensureOwnProfile() async {
     final user = _auth.currentUser;
 
@@ -211,6 +214,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  /// ตรวจและบันทึกชื่อ ประวัติ และเกมที่สนใจกลับ users/{uid}.
   Future<void> _saveProfile() async {
     final user = _auth.currentUser;
     final ref = _userRef;
@@ -260,6 +264,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  /// เพิ่มหรือลบความสัมพันธ์ followers/following และแจ้งผู้ใช้เมื่อเริ่มติดตาม.
   Future<void> _toggleFollow() async {
     final myUid = _myUid;
     final targetUid = _targetUid;
@@ -410,6 +415,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  /// บันทึกค่าความเป็นส่วนตัวของโปรไฟล์สำหรับเจ้าของบัญชีเท่านั้น.
   Future<void> _setPrivate(bool value) async {
     final ref = _userRef;
     final uid = _targetUid;
@@ -612,6 +618,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  /// อ่านโพสต์ของ UID เป้าหมายและแสดงเป็นรายการบนหน้าโปรไฟล์.
   Widget _buildPosts(String uid) {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: _db.collection('posts').where('uid', isEqualTo: uid).snapshots(),
@@ -1192,6 +1199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 }
 
+/// หน้าแสดงรายชื่อ follower หรือ following ที่เปิดมาจากตัวเลขบนโปรไฟล์.
 class UserListScreen extends StatelessWidget {
   final String ownerUid;
   final String subcollection;

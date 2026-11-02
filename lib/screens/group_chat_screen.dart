@@ -1,3 +1,4 @@
+/// หน้าสนทนากลุ่ม จัดการข้อความ/สื่อ สมาชิก การแจ้งเตือน การลบประวัติ และการออกจากกลุ่ม.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class GroupChatScreen extends StatefulWidget {
   State<GroupChatScreen> createState() => _GroupChatScreenState();
 }
 
+/// ถือสถานะห้องกลุ่มและ composer พร้อม reference ไป groupChats/{groupId}.
 class _GroupChatScreenState extends State<GroupChatScreen> {
   final _textController = TextEditingController();
   final _picker = ImagePicker();
@@ -52,6 +54,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     super.dispose();
   }
 
+  /// บันทึกข้อความและ lastMessage ของกลุ่มใน batch เดียว จากนั้นสร้างแจ้งเตือนให้สมาชิก.
   Future<void> _send() async {
     final user = FirebaseAuth.instance.currentUser;
     final text = _textController.text.trim();
@@ -102,6 +105,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     return emailName.isNotEmpty ? emailName : 'ผู้เล่น';
   }
 
+  /// ส่ง notification ให้สมาชิกทุกคนยกเว้นผู้ส่ง โดยใช้ ID ที่ป้องกันเอกสารซ้ำ.
   Future<void> _notifyGroupMembers({
     required User sender,
     required Map<String, dynamic> groupData,
@@ -171,6 +175,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     await _sendMedia(isVideo: isVideo);
   }
 
+  /// อัปโหลดสื่อไป Cloudinary แล้วเพิ่มข้อความสื่อในห้องกลุ่ม.
   Future<void> _sendMedia({required bool isVideo}) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null || _sending || _clearingHistory) return;
@@ -247,6 +252,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
       ..showSnackBar(SnackBar(content: Text(message)));
   }
 
+  /// อ่านรายชื่อสมาชิกปัจจุบันและเปิดหน้าต่างแสดงข้อมูลสมาชิก.
   Future<void> _showMembers() async {
     try {
       final group = await _groupRef.get();
@@ -314,6 +320,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     }
   }
 
+  /// เปิด flow เลือกผู้ใช้และเพิ่มเข้า members ของห้องตามสิทธิ์.
   Future<void> _showAddMembers() async {
     DocumentSnapshot<Map<String, dynamic>> groupSnapshot;
     try {
@@ -465,6 +472,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     }
   }
 
+  /// ลบข้อความของห้องเป็น batch ขนาดจำกัดจนหมด แล้วล้างข้อความตัวอย่างล่าสุด.
   Future<void> _clearChatHistory() async {
     if (_clearingHistory || _sending) return;
     final confirmed = await showDialog<bool>(
@@ -516,6 +524,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     }
   }
 
+  /// นำผู้ใช้ออกจากสมาชิกห้องและปิดหน้าหลังอัปเดตสำเร็จ.
   Future<void> _leaveGroup() async {
     if (_leaving || _sending || _clearingHistory) return;
     final user = FirebaseAuth.instance.currentUser;
@@ -856,6 +865,7 @@ class _CreateGroupDialog extends StatefulWidget {
   State<_CreateGroupDialog> createState() => _CreateGroupDialogState();
 }
 
+/// เก็บชื่อกลุ่มและสมาชิกเริ่มต้นก่อนสร้างเอกสาร groupChats.
 class _CreateGroupDialogState extends State<_CreateGroupDialog> {
   final _nameController = TextEditingController();
   final _memberSearchController = TextEditingController();
@@ -879,6 +889,7 @@ class _CreateGroupDialogState extends State<_CreateGroupDialog> {
     return email.contains('@') ? email.split('@').first : 'ผู้เล่น';
   }
 
+  /// ตรวจข้อมูลแล้วสร้างห้องกลุ่มพร้อมกำหนดเจ้าของและสมาชิกชุดแรก.
   Future<void> _createGroup() async {
     final user = FirebaseAuth.instance.currentUser;
     final name = _nameController.text.trim();
@@ -1061,6 +1072,7 @@ class _AddGroupMembersDialog extends StatefulWidget {
   State<_AddGroupMembersDialog> createState() => _AddGroupMembersDialogState();
 }
 
+/// จัดการการค้นหา/เลือกบัญชีที่จะเพิ่มเข้า group chat.
 class _AddGroupMembersDialogState extends State<_AddGroupMembersDialog> {
   final _searchController = TextEditingController();
   final _selectedUids = <String>{};

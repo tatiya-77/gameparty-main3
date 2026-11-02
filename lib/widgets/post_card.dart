@@ -1,3 +1,4 @@
+/// การ์ดโพสต์ที่ใช้แสดงข้อมูลทีม สื่อ ปฏิกิริยา และปุ่มดำเนินการซ้ำในหลายหน้าจอ.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import '../utils/date_time_format.dart';
 import 'inline_video_player.dart';
 import 'join_request_button.dart';
 
+/// รับข้อมูลโพสต์และ callback จากหน้าจอ แล้วจัดรูปเป็นการ์ดที่นำกลับมาใช้ซ้ำได้.
 class PostCard extends StatelessWidget {
   final DocumentSnapshot<Map<String, dynamic>> doc;
   final VoidCallback onMenu;
@@ -313,6 +315,7 @@ class PostCard extends StatelessWidget {
     );
   }
 
+  /// สรุปจำนวน/ชนิด reaction ของโพสต์ในส่วนท้ายการ์ด.
   Widget _buildReactionSummary(
     Map<String, dynamic> data,
     String selectedReaction,
@@ -346,6 +349,7 @@ class PostCard extends StatelessWidget {
   }
 }
 
+/// ปุ่ม action แบบใช้ซ้ำในแถวท้ายโพสต์ เช่น like, comment หรือ share.
 class _ActionButton extends StatelessWidget {
   final IconData icon;
   final String label;

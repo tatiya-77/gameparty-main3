@@ -1,7 +1,9 @@
+/// แปลงข้อมูลแจ้งเตือนดิบให้เป็นหัวข้อ ข้อความย่อย และไอคอนที่อ่านง่ายในหน้ากล่องแจ้งเตือน.
 import 'package:flutter/material.dart';
 
 /// Builds the user-facing title, icon, and body for an inbox notification.
 /// Kept independent from Firebase so notification behavior can be unit tested.
+/// ผลลัพธ์สำหรับ UI ของ notification แยกจาก Firestore เพื่อทดสอบ mapping ได้โดยตรง.
 class NotificationPresentation {
   const NotificationPresentation({
     required this.title,
@@ -13,6 +15,7 @@ class NotificationPresentation {
   final String subtitle;
   final IconData icon;
 
+  /// เลือก title, subtitle และ icon ตาม type พร้อมข้อความสำรองเมื่อ field หาย.
   factory NotificationPresentation.fromData(Map<String, dynamic> data) {
     final type = data['type'];
     final senderValue = data['senderName'];

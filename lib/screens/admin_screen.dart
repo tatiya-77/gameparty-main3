@@ -1,7 +1,9 @@
+/// หน้าผู้ดูแลระบบ: ตรวจสิทธิ์จากเอกสาร admins จัดการรายงานโพสต์ และดูรายชื่อสมาชิก.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+/// ก่อนให้เห็นข้อมูลแอดมิน ตรวจเอกสาร admins/{uid}; Firestore Rules ยังเป็นด่านสิทธิ์หลัก.
 class AdminScreen extends StatelessWidget {
   const AdminScreen({super.key});
 
@@ -36,6 +38,7 @@ class AdminScreen extends StatelessWidget {
   }
 }
 
+/// ฟัง reports เรียงใหม่ก่อน แล้วให้แอดมินเปิดโพสต์หรือตัดสินผลรายงาน.
 class _ReportsTab extends StatelessWidget {
   const _ReportsTab();
 
@@ -107,6 +110,7 @@ class _ReportsTab extends StatelessWidget {
         },
       );
 
+  /// ดึงโพสต์ต้นฉบับจาก posts/{postId}; ถ้าถูกลบหรืออ่านไม่ได้ ใช้ snapshot ที่แนบมากับรายงานแทน.
   Future<void> _showReportedPost(
     BuildContext context,
     Map<String, dynamic> reportData,
@@ -212,6 +216,7 @@ class _ReportsTab extends StatelessWidget {
     );
   }
 
+  /// อัปเดตสถานะรายงาน และเมื่อลบจะลบโพสต์พร้อมบันทึก notification ให้เจ้าของใน batch เดียว.
   Future<void> _resolve(BuildContext context, QueryDocumentSnapshot<Map<String, dynamic>> report,
       {required bool deletePost}) async {
     final data = report.data();
@@ -254,6 +259,7 @@ class _ReportsTab extends StatelessWidget {
   }
 }
 
+/// อ่าน users collection เพื่อแสดงรายชื่อและอีเมลของสมาชิกแก่ผู้ดูแล.
 class _UsersTab extends StatelessWidget {
   const _UsersTab();
 

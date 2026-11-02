@@ -1,9 +1,11 @@
+/// ตัวคัดกรองสถานะบัญชีผู้ใช้ ฟัง Firebase Auth แล้วเลือกหน้าเข้าสู่ระบบหรือหน้าแอป.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'home_screen.dart';
 import 'login_screen.dart';
 
+/// ใช้ authStateChanges เป็นแหล่งสถานะจริง จึงเปลี่ยนหน้าอัตโนมัติเมื่อ login/logout.
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 
@@ -48,6 +50,7 @@ class AuthGate extends StatelessWidget {
 // Loading Screen
 // ======================================================
 
+/// หน้าระหว่างรอ Firebase ตรวจสอบ session ที่อาจบันทึกไว้จากครั้งก่อน.
 class _AuthLoadingScreen extends StatelessWidget {
   const _AuthLoadingScreen();
 
@@ -125,6 +128,7 @@ class _AuthLoadingScreen extends StatelessWidget {
 // Error Screen
 // ======================================================
 
+/// แสดงข้อผิดพลาดจากการตรวจ session เพื่อไม่ปล่อยหน้าว่างเมื่อ Auth มีปัญหา.
 class _AuthErrorScreen extends StatelessWidget {
   final String error;
 

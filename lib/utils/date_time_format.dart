@@ -1,3 +1,4 @@
+/// ฟังก์ชันช่วยแปลงเวลา Firestore/DateTime เป็นป้ายเวลาข้อความและหัวข้อแบ่งวันในแชต.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -45,6 +46,7 @@ String? formatChatDateDividerLabel(dynamic value) {
   return '${date.day} ${months[date.month - 1]} ${date.year + 543}';
 }
 
+/// ใช้ตัดสินว่าข้อความสองรายการอยู่วันเดียวกันหรือไม่ สำหรับแสดงหัวข้อแบ่งวัน.
 bool isSameChatDay(dynamic first, dynamic second) {
   final a = _dateTimeFrom(first)?.toLocal();
   final b = _dateTimeFrom(second)?.toLocal();
@@ -52,6 +54,7 @@ bool isSameChatDay(dynamic first, dynamic second) {
   return a.year == b.year && a.month == b.month && a.day == b.day;
 }
 
+/// แปลงชนิดเวลาที่รองรับเป็น DateTime; ค่าอื่นคืน null เพื่อให้ UI ใช้ fallback.
 DateTime? _dateTimeFrom(dynamic value) {
   return switch (value) {
     Timestamp timestamp => timestamp.toDate(),
@@ -60,6 +63,7 @@ DateTime? _dateTimeFrom(dynamic value) {
   };
 }
 
+/// widget เล็กสำหรับแสดงเวลาไว้ข้าง bubble โดยใช้รูปแบบเดียวกันทุกห้อง.
 class ChatTimeLabel extends StatelessWidget {
   const ChatTimeLabel({super.key, required this.label});
 

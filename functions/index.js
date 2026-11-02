@@ -6,6 +6,7 @@ const {logger} = require("firebase-functions");
 
 initializeApp();
 
+// ทำงานเมื่อมีเอกสารใหม่ในกล่องแจ้งเตือนผู้ใช้ แล้วส่ง FCM ไปยังอุปกรณ์ที่ลงทะเบียนไว้
 exports.sendChatPushNotification = onDocumentCreated(
   "users/{uid}/notifications/{notificationId}",
   async (event) => {
@@ -129,6 +130,7 @@ exports.sendChatPushNotification = onDocumentCreated(
 );
 
 
+// ทำงานเมื่อมีรายงานใหม่สถานะ pending แล้วสร้าง admin_report ให้ inbox ของแอดมินทุกคน
 exports.notifyAdminsOfPostReport = onDocumentCreated(
   "reports/{reportId}",
   async (event) => {

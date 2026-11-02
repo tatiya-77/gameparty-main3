@@ -1,3 +1,4 @@
+/// กล่องแจ้งเตือนในแอป อ่านข้อมูลแบบเรียลไทม์ ทำเครื่องหมายอ่าน และนำทางตามชนิดแจ้งเตือน.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'private_chat_screen.dart';
 import 'profile_screen.dart';
 import '../utils/notification_presentation.dart';
 
+/// แสดง inbox ของผู้ใช้ปัจจุบัน; path เป็น users/{uid}/notifications.
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
@@ -20,6 +22,7 @@ class NotificationScreen extends StatelessWidget {
         .collection('notifications');
   }
 
+  /// อัปเดต isRead เฉพาะรายการที่ยังไม่อ่าน โดยรวมเป็น Firestore batch.
   Future<void> _markAllRead(
     BuildContext context,
     List<QueryDocumentSnapshot<Map<String, dynamic>>> docs,
@@ -44,6 +47,7 @@ class NotificationScreen extends StatelessWidget {
     }
   }
 
+  /// ทำเครื่องหมายอ่าน แล้วแยกทางนำทางตามชนิด เช่น คำเชิญ แชต กลุ่ม หรือโปรไฟล์.
   Future<void> _openNotification(
     BuildContext context,
     QueryDocumentSnapshot<Map<String, dynamic>> doc,
@@ -183,6 +187,7 @@ class NotificationScreen extends StatelessWidget {
   }
 
   @override
+  /// ฟัง inbox ล่าสุด เรียงตามเวลา จำกัดจำนวนที่โหลด และแสดงสถานะว่าง/ผิดพลาด.
   Widget build(BuildContext context) {
     final inbox = _inbox();
     return Scaffold(

@@ -2,6 +2,7 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // ฟังก์ชันช่วยเหลือรวมเงื่อนไขสิทธิ์ไว้จุดเดียว เพื่อให้แต่ละ match ตรวจสอบด้วยหลักเกณฑ์เดียวกัน
     function signedIn() {
       return request.auth != null;
     }
@@ -10,6 +11,7 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
+    // สิทธิ์แอดมินมาจากการมีเอกสาร admins/{uid}; ผู้ใช้สร้างสิทธินี้จาก client ไม่ได้
     function isAdmin() {
       return signedIn()
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
@@ -250,6 +252,7 @@ service cloud.firestore {
       }
     }
 
+    // ข้อมูลโปรไฟล์และ subcollections ส่วนตัว: inbox, join requests และ device tokens
     match /users/{uid} {
       allow read: if signedIn();
       allow create, update, delete: if isOwner(uid);
@@ -532,6 +535,7 @@ service cloud.firestore {
       }
     }
 
+    // เอกสารห้องกลุ่มควบคุมรายชื่อสมาชิก ส่วน messages จำกัดให้อ่าน/เขียนโดยสมาชิก
     match /groupChats/{groupId} {
       // Keep the query constraints explicit so Firestore can prove each list
       // query is limited to the signed-in member or owner.
@@ -685,6 +689,7 @@ service cloud.firestore {
       }
     }
 
+    // โพสต์อ่านได้เมื่อ login; การสร้าง/แก้ไข/ลบและ reaction/comment ถูกจำกัดตามเจ้าของหรือกติกาเฉพาะ
     match /posts/{postId} {
       allow read: if signedIn();
 
@@ -797,6 +802,7 @@ service cloud.firestore {
 
     // Reports are private to their reporter. A deterministic ID allows one
     // report per account per post while preventing users from replacing it.
+    // รายงานอ่านรายการได้เฉพาะแอดมิน และผู้ใช้สร้างรายงานของตนเองได้ครั้งเดียวต่อโพสต์
     match /reports/{reportId} {
       allow get: if isAdmin() || (signedIn()
         && (!exists(/databases/$(database)/documents/reports/$(reportId))

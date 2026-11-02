@@ -1,3 +1,4 @@
+/// หน้าสนทนาระหว่างผู้ใช้สองคน จัดการข้อความ สื่อ ประวัติ และสถานะห้องแชต.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class PrivateChatScreen extends StatefulWidget {
   State<PrivateChatScreen> createState() => _PrivateChatScreenState();
 }
 
+/// ควบคุมห้องส่วนตัว: composer ข้อความ สถานะส่ง/ลบ และ reference ของห้องกับข้อความ.
 class _PrivateChatScreenState extends State<PrivateChatScreen> {
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
@@ -58,6 +60,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
   // ============================================================
   // ส่งข้อความ
   // ============================================================
+  /// ตรวจข้อความและสถานะ busy ก่อนส่งผ่านเมธอดเขียนข้อความแบบ transaction/batch.
   Future<void> _sendText() async {
     final text = _textController.text.trim();
     final user = _user;
@@ -99,6 +102,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
     }
   }
 
+  /// ลบข้อความเป็นชุดย่อยจนหมด แล้วปรับ lastMessage ของห้องเพื่อไม่ให้ยังแสดงข้อความเก่า.
   Future<void> _clearChatHistory() async {
     if (_clearingHistory || _sending) return;
     final confirmed = await showDialog<bool>(
@@ -153,6 +157,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
   // ============================================================
   // บันทึกข้อความลง Firestore
   // ============================================================
+  /// เขียนเอกสารห้องและข้อความอย่างสอดคล้อง พร้อมอัปเดต preview และสร้าง notification ให้ผู้รับ.
   Future<bool> _writeMessage({
     required String text,
     required String type,
@@ -260,6 +265,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
   // ============================================================
   // เลือกรูปภาพหรือวิดีโอ และอัปโหลดไป Cloudinary
   // ============================================================
+  /// เลือกรูป/วิดีโอ อัปโหลด Cloudinary แล้วส่ง URL เป็นข้อความชนิด media.
   Future<void> _pickAndUploadMedia({
     required bool video,
     required ImageSource source,
@@ -432,6 +438,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
   // ============================================================
   // ลบข้อความของตัวเอง
   // ============================================================
+  /// ลบข้อความที่ผู้ใช้มีสิทธิ์ลบ และอัปเดตข้อมูล preview หากจำเป็น.
   Future<void> _deleteMessage(
     QueryDocumentSnapshot<Map<String, dynamic>> message,
   ) async {
@@ -546,6 +553,7 @@ class _PrivateChatScreenState extends State<PrivateChatScreen> {
   // หน้าจอหลัก
   // ============================================================
   @override
+  /// ฟังข้อความเรียลไทม์ เรียงตามเวลา แสดง bubble และ composer สำหรับส่งข้อความ/สื่อ.
   Widget build(BuildContext context) {
     final user = _user;
 

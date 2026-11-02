@@ -1,3 +1,4 @@
+/// แคชสำเนาโพสต์ใน SQLite เพื่ออ่านข้อมูลล่าสุดที่เคยโหลด โดย Firestore ยังคงเป็นแหล่งข้อมูลหลัก.
 import 'dart:convert';
 
 import 'package:path/path.dart' as path;
@@ -7,6 +8,7 @@ import 'package:sqflite/sqflite.dart';
 ///
 /// Firestore remains the source of truth. This database stores a local copy
 /// of the feed so the app can reuse the latest downloaded post data.
+/// singleton สำหรับเปิด SQLite ครั้งเดียวและใช้ตาราง cached_posts เก็บสำเนา feed.
 class LocalDatabaseService {
   LocalDatabaseService._();
 
@@ -58,6 +60,7 @@ class LocalDatabaseService {
   }
 
   /// Saves/replaces a batch of Firestore posts in a single transaction.
+  /// เขียนโพสต์เป็น transaction และแปลง Timestamp/Map/List ให้ JSON บันทึกได้.
   Future<void> cachePosts(List<Map<String, dynamic>> posts) async {
     final db = await database;
     await db.transaction((txn) async {
@@ -94,6 +97,7 @@ class LocalDatabaseService {
   }
 
   /// Returns cached posts, newest first. `data` is decoded from JSON.
+  /// อ่าน cache เรียงใหม่ก่อน พร้อมถอด dataJson กลับเป็น Map ให้หน้าจอใช้.
   Future<List<Map<String, dynamic>>> getCachedPosts() async {
     final db = await database;
     final rows = await db.query(

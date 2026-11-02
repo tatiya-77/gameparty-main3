@@ -1,7 +1,9 @@
+/// ชุดเมธอดจัดการโพสต์ผ่าน Firestore แยกจาก widget (บางหน้าจอมี logic โพสต์ของตนเองด้วย).
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+/// ชั้น service ห่อการอ่านและแก้ไข posts collection เพื่อลด Firebase logic ใน UI.
 class PostService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -13,6 +15,7 @@ class PostService {
   // ==========================================
   // 1. แสดงโพสต์ทั้งหมดแบบ Real-time
   // ==========================================
+  /// ส่ง stream โพสต์เรียงจากใหม่ไปเก่า เพื่อให้ UI อัปเดตแบบเรียลไทม์.
   Stream<QuerySnapshot<Map<String, dynamic>>> getPosts() {
     return _posts
         .orderBy('createdAt', descending: true)
@@ -22,6 +25,7 @@ class PostService {
   // ==========================================
   // 2. เพิ่มโพสต์หาตี้
   // ==========================================
+  /// ตรวจผู้ใช้และฟิลด์บังคับก่อนสร้างเอกสารโพสต์เริ่มต้น.
   Future<void> createPost({
     required String game,
     required String title,
@@ -61,6 +65,7 @@ class PostService {
   // ==========================================
   // 3. แก้ไขโพสต์
   // ==========================================
+  /// ตรวจว่าเอกสารมีอยู่และ UID เจ้าของตรงกับบัญชีปัจจุบันก่อนแก้ไข.
   Future<void> updatePost({
     required String postId,
     required String game,
@@ -99,6 +104,7 @@ class PostService {
   // ==========================================
   // 4. ลบโพสต์
   // ==========================================
+  /// อ่านโพสต์เพื่อยืนยันเจ้าของก่อนลบ ไม่เชื่อ postId จาก UI อย่างเดียว.
   Future<void> deletePost(String postId) async {
     final user = FirebaseAuth.instance.currentUser;
 
@@ -125,6 +131,7 @@ class PostService {
   // ==========================================
   // 5. ค้นหาโพสต์ตามชื่อเกม หัวข้อ รายละเอียด
   // ==========================================
+  /// กรองคำค้นใน game/title/detail จาก snapshot; การกรองนี้ทำบน client.
   Stream<List<QueryDocumentSnapshot<Map<String, dynamic>>>> searchPosts(
     String keyword,
   ) {
@@ -157,6 +164,7 @@ class PostService {
   // ==========================================
   // 6. เพิ่มจำนวน Like
   // ==========================================
+  /// เพิ่มจำนวน like ด้วย transaction เพื่อป้องกันการอ่านค่าเก่าแล้วเขียนทับกัน.
   Future<void> likePost(String postId) async {
     final postRef = _posts.doc(postId);
 

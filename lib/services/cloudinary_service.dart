@@ -1,9 +1,11 @@
+/// อัปโหลดรูปภาพและวิดีโอไปยัง Cloudinary แล้วคืน secure URL ให้หน้าจอนำไปบันทึกใน Firestore.
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
+/// ใช้ unsigned upload preset ส่ง bytes ไปยัง endpoint แยก image/video แล้วอ่าน secure_url จาก response.
 class CloudinaryService {
   // Cloudinary configuration
   static const String cloudName = 'ikevsyy7';
@@ -15,6 +17,7 @@ class CloudinaryService {
   }
 
   /// อัปโหลดรูปภาพหรือวิดีโอ
+  /// สร้าง multipart request พร้อม timeout, ตรวจรหัส HTTP และแปลงข้อผิดพลาดของ Cloudinary ให้อ่านได้.
   static Future<String?> uploadMedia(
     XFile file, {
     required bool isVideo,

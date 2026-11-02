@@ -1,6 +1,8 @@
+/// ปุ่มส่งคำขอเข้าร่วมทีม ซึ่งแสดงสถานะคำขอและป้องกันการส่งซ้ำระหว่างหน้าจอ.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+/// สร้างปุ่มตามสถานะคำขอของผู้ใช้ และเก็บสถานะ pending ชั่วคราวระหว่างรอ Firestore.
 class JoinRequestButton extends StatelessWidget {
   static final ValueNotifier<Map<String, String>> localStatuses =
       ValueNotifier<Map<String, String>>(<String, String>{});
@@ -41,6 +43,7 @@ class JoinRequestButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool compact;
 
+  /// เลือก label, สี และการกดได้ตาม pending/accepted ของคำขอ.
   Widget _button({required bool pending, required bool accepted}) {
     final disabled = isOwnPost || pending || accepted || isFull || isClosed;
     final label = isOwnPost

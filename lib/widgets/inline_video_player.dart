@@ -1,3 +1,4 @@
+/// ตัวเล่นวิดีโอภายในเนื้อหาโพสต์ พร้อมสถานะโหลด ข้อผิดพลาด และปุ่มลองใหม่.
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -17,6 +18,7 @@ class InlineVideoPlayer extends StatefulWidget {
   State<InlineVideoPlayer> createState() => _InlineVideoPlayerState();
 }
 
+/// ถือ VideoPlayerController และสถานะกำลังโหลด/ผิดพลาดตลอดอายุ widget.
 class _InlineVideoPlayerState extends State<InlineVideoPlayer> {
   late VideoPlayerController _controller;
   bool _hasError = false;
@@ -39,6 +41,7 @@ class _InlineVideoPlayerState extends State<InlineVideoPlayer> {
     _initializeController();
   }
 
+  /// สร้าง controller จาก URL, initialize และเริ่ม playback เมื่อพร้อม โดยเช็ก mounted ก่อน setState.
   Future<void> _initializeController() async {
     _hasError = false;
     _controller = VideoPlayerController.networkUrl(_playbackUri());
@@ -51,6 +54,7 @@ class _InlineVideoPlayerState extends State<InlineVideoPlayer> {
     }
   }
 
+  /// ปล่อย controller เดิมแล้ว initialize ใหม่เมื่อโหลดวิดีโอไม่สำเร็จ.
   Future<void> _retry() async {
     await _controller.dispose();
     if (!mounted) return;
@@ -59,6 +63,7 @@ class _InlineVideoPlayerState extends State<InlineVideoPlayer> {
   }
 
   @override
+  /// หยุดและคืนทรัพยากร controller ป้องกัน decoder ค้างเมื่อเลื่อนออกจากจอ.
   void dispose() {
     _controller.dispose();
     super.dispose();

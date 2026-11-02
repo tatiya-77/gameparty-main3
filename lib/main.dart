@@ -1,3 +1,4 @@
+/// จุดเริ่มต้นของแอป: เตรียม Flutter, Firebase และระบบแจ้งเตือน ก่อนเปิดวิดเจ็ตหลักของ Game Party.
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'firebase_options.dart';
 import 'screens/auth_gate.dart';
 import 'services/notification_service.dart';
 
+/// เริ่มระบบก่อน runApp: Firebase ต้องพร้อมก่อน widget ที่เรียกใช้ Firestore หรือ Auth จะถูกสร้าง.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -25,6 +27,7 @@ Future<void> main() async {
   runApp(const GamePartyApp());
 }
 
+/// รากของ widget tree กำหนดชื่อแอป ธีมสีเข้ม ขนาดเนื้อหาสูงสุด และหน้า AuthGate.
 class GamePartyApp extends StatelessWidget {
   const GamePartyApp({super.key});
 

@@ -1,8 +1,10 @@
+/// ตัวแสดงรูปหรือวิดีโอแบบเต็มหน้าจอสำหรับสื่อที่แนบในแชต.
 
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 /// เปิดรูปภาพหรือวิดีโอในหน้าดูสื่อแบบเต็มจอ
+/// เปิด viewer แบบเต็มจอเป็น route แยก โดยส่ง URL และชนิดสื่อเข้าไป.
 Future<void> showChatMediaViewer(
   BuildContext context, {
   required String url,
@@ -37,6 +39,7 @@ class _ChatMediaViewer extends StatefulWidget {
       _ChatMediaViewerState();
 }
 
+/// จัดการการโหลด/เล่นวิดีโอและการซูมภาพของ viewer พร้อมคืน controller ตอนปิด.
 class _ChatMediaViewerState extends State<_ChatMediaViewer> {
   VideoPlayerController? _controller;
 
@@ -67,6 +70,7 @@ class _ChatMediaViewerState extends State<_ChatMediaViewer> {
     }
   }
 
+  /// เตรียมวิดีโอสำหรับหน้าดูเต็มจอและบันทึกสถานะ error เพื่อให้ลองใหม่ได้.
   Future<void> _initializeVideo() async {
     final controller =
         VideoPlayerController.networkUrl(_playbackUri());
@@ -235,6 +239,7 @@ class _ChatMediaViewerState extends State<_ChatMediaViewer> {
     );
   }
 
+  /// สร้าง UI วิดีโอแยกจากภาพ โดยรองรับ loading, error และปุ่มควบคุม.
   Widget _buildVideo(VideoPlayerController? controller) {
     if (_failed) {
       return const Center(

@@ -1,3 +1,4 @@
+/// หน้าค้นหาโพสต์หาเพื่อนเล่นเกม พร้อมตัวกรองและการส่งคำขอเข้าร่วมทีม.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class DiscoverScreen extends StatefulWidget {
   State<DiscoverScreen> createState() => _DiscoverScreenState();
 }
 
+/// เก็บคำค้น เกมที่เลือก และตัวกรองเวลาว่าง/ไมค์ ก่อนกรองผลโพสต์ที่อ่านจาก Firestore.
 class _DiscoverScreenState extends State<DiscoverScreen> {
   final _searchController = TextEditingController();
   final Set<String> _sentJoinRequestPostIds = <String>{};
@@ -53,6 +55,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     super.dispose();
   }
 
+  /// ตรวจเจ้าของ สถานะรับสมาชิก และจำนวนคน แล้วสร้าง join request พร้อมแจ้งเจ้าของ.
   Future<void> _requestJoin(String postId, Map<String, dynamic> post) async {
     final user = FirebaseAuth.instance.currentUser;
     final ownerUid = (post['uid'] ?? '').toString();
@@ -165,6 +168,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   }
 
   @override
+  /// แสดงแถบค้นหาและตัวกรอง พร้อมรายการโพสต์ที่ตรงกับคำค้นและเงื่อนไขที่เลือก.
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 

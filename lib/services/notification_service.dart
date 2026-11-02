@@ -1,3 +1,4 @@
+/// ลงทะเบียน FCM token ของอุปกรณ์ รับ push notification ขณะเปิดแอป และแสดง local notification.
 import 'dart:async';
 import 'dart:convert';
 
@@ -6,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+/// บริการแบบ static ที่จัดการ FCM token ต่อบัญชีและแสดง notification ใน foreground.
 class NotificationService {
   NotificationService._();
 
@@ -23,6 +25,7 @@ class NotificationService {
     importance: Importance.max,
   );
 
+  /// ตั้ง local notification channel, ขอสิทธิ์แจ้งเตือน และฟัง push ขณะเปิดแอป.
   static Future<void> initialize() async {
     if (_initialized) return;
 
@@ -71,6 +74,7 @@ class NotificationService {
   }
 
   /// Registers this device's private FCM token for server-side chat push.
+  /// หลัง login ลงทะเบียน token ของอุปกรณ์ไว้ที่ users/{uid}/devices ให้ Cloud Function ใช้ส่ง push.
   static Future<void> bindUser(String uid) async {
     if (kIsWeb || uid.isEmpty || _boundUid == uid) return;
     await initialize();
@@ -88,6 +92,7 @@ class NotificationService {
     );
   }
 
+  /// ยกเลิกการฟัง token refresh และลบ token ของอุปกรณ์ออกเมื่อออกจากบัญชี.
   static Future<void> unbindUser() async {
     await _tokenSubscription?.cancel();
     _tokenSubscription = null;
@@ -109,6 +114,7 @@ class NotificationService {
     _tokenDocId = null;
   }
 
+  /// สร้าง document ID จาก token, ลบ token เก่าที่เปลี่ยน แล้วบันทึก token ปัจจุบันลง Firestore.
   static Future<void> _saveToken(String uid, String token) async {
     if (_boundUid != uid) return;
     final tokenDocId = base64Url.encode(utf8.encode(token)).replaceAll('=', '');
@@ -142,6 +148,7 @@ class NotificationService {
     }
   }
 
+  /// แสดงการแจ้งเตือนในเครื่องเมื่อได้รับ push ขณะ foreground (เว็บไม่ใช้ปลั๊กอินนี้).
   static Future<void> showLocalNotification({
     required String title,
     required String body,
