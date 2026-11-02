@@ -1,62 +1,62 @@
 # Game Party
 
-Flutter app for finding teammates, creating game posts, sending join requests, chatting, reacting to posts, and reporting inappropriate content. Administrators can review reports and manage members.
+แอป Flutter สำหรับหาเพื่อนร่วมทีม สร้างโพสต์ชวนเล่นเกม ส่งคำขอเข้าร่วมทีม แชต แสดงความรู้สึกต่อโพสต์ และรายงานเนื้อหาที่ไม่เหมาะสม ผู้ดูแลระบบสามารถตรวจสอบรายงานและจัดการสมาชิกได้
 
-## Requirements
+## สิ่งที่ต้องมี
 
-- Flutter SDK compatible with Dart 3.3 or newer
-- Android Studio with Android SDK, or Xcode on macOS for iOS builds
-- A Firebase project configured for Android, iOS, and Web as needed
-- Node.js for Firebase Cloud Functions
+- Flutter SDK ที่ใช้ Dart 3.3 ขึ้นไป
+- Android Studio พร้อม Android SDK หรือ Xcode บน macOS สำหรับสร้างแอป iOS
+- โปรเจกต์ Firebase ที่ตั้งค่าสำหรับ Android, iOS และ Web ตามแพลตฟอร์มที่ต้องการ
+- Node.js สำหรับ Firebase Cloud Functions
 
-## Run locally
+## เริ่มใช้งานในเครื่อง
 
 ```sh
 flutter pub get
 flutter run
 ```
 
-The app uses the Firebase settings in `lib/firebase_options.dart` and the Android Firebase configuration in `android/app/google-services.json`. Replace these with configuration from your own Firebase project before using this code with a different backend.
+แอปใช้การตั้งค่า Firebase จาก `lib/firebase_options.dart` และไฟล์ Firebase สำหรับ Android ที่ `android/app/google-services.json` หากต้องการเชื่อมกับ Firebase โปรเจกต์อื่น ให้เปลี่ยนไฟล์เหล่านี้เป็นค่าจากโปรเจกต์ของคุณ
 
-## Android APK
+## สร้างไฟล์ APK สำหรับ Android
 
-Build an installable release APK:
+ใช้คำสั่งนี้เพื่อสร้างไฟล์ติดตั้ง APK:
 
 ```sh
 flutter build apk --release
 ```
 
-Output: `build/app/outputs/flutter-apk/app-release.apk`.
+ไฟล์ที่ได้อยู่ที่ `build/app/outputs/flutter-apk/app-release.apk`
 
-The current Android release configuration signs with the debug key. Configure a private release keystore before distributing the APK publicly or through Google Play. Do not commit keystores or signing passwords.
+ขณะนี้การตั้งค่า Android ใช้ debug key ในการเซ็นไฟล์ release หากต้องการเผยแพร่แอปจริงหรือส่งขึ้น Google Play ให้ตั้งค่า release keystore ส่วนตัวก่อน ห้ามนำ keystore หรือรหัสผ่านสำหรับเซ็นไฟล์ขึ้น Git
 
-## iOS and TestFlight
+## iOS และ TestFlight
 
-iOS builds and TestFlight uploads require macOS with Xcode, an Apple Developer Program team, a unique bundle identifier, and valid signing/provisioning settings. On the Mac:
+การสร้างแอป iOS และอัปโหลดขึ้น TestFlight ต้องใช้ macOS ที่ติดตั้ง Xcode, บัญชี Apple Developer Program, Bundle ID ที่ไม่ซ้ำ และการตั้งค่า signing กับ provisioning profile บนเครื่อง Mac:
 
-1. Configure the iOS Firebase app and `ios/Runner/GoogleService-Info.plist` for your Firebase project.
-2. Set the bundle identifier and signing team in Xcode (`ios/Runner.xcworkspace`).
-3. Run `flutter build ipa --release`.
-4. Upload the generated IPA using Xcode Organizer or Transporter, then add it to a TestFlight group in App Store Connect.
+1. ตั้งค่า Firebase สำหรับแอป iOS และเพิ่มไฟล์ `ios/Runner/GoogleService-Info.plist` ของ Firebase โปรเจกต์ที่ใช้
+2. ตั้ง Bundle ID และทีม signing ใน Xcode (`ios/Runner.xcworkspace`)
+3. สร้างไฟล์ IPA ด้วย `flutter build ipa --release`
+4. อัปโหลด IPA ผ่าน Xcode Organizer หรือ Transporter จากนั้นเพิ่มแอปให้กลุ่มทดสอบใน App Store Connect
 
-## Firebase setup
+## ตั้งค่า Firebase
 
-Deploy Firestore rules and Cloud Functions from the project root:
+รันคำสั่งต่อไปนี้จากโฟลเดอร์หลักของโปรเจกต์เพื่อ deploy Firestore Rules และ Cloud Functions:
 
 ```sh
 firebase deploy --only firestore:rules,functions
 ```
 
-Create an `admins/{Firebase Auth UID}` document in Firestore to grant admin access. A report creates a notification for the post owner and triggers an admin notification through Cloud Functions. Pending reports are counted on the admin shield badge.
+สร้างเอกสาร `admins/{Firebase Auth UID}` ใน Firestore เพื่อให้สิทธิ์ผู้ดูแลระบบ เมื่อมีผู้รายงานโพสต์ ระบบจะแจ้งเจ้าของโพสต์และส่งการแจ้งเตือนไปยังผู้ดูแลผ่าน Cloud Functions ส่วน badge บนไอคอนโล่แอดมินจะแสดงจำนวนรายงานที่รอตรวจสอบ
 
-## Project layout
+## โครงสร้างโปรเจกต์
 
-- `lib/` — Flutter application
-- `firestore.rules` — Firestore access rules
+- `lib/` — โค้ดแอป Flutter
+- `firestore.rules` — กฎการเข้าถึง Firestore
 - `functions/` — Firebase Cloud Functions
-- `android/` — Android project
-- `web/` — Web project
+- `android/` — โปรเจกต์ Android
+- `web/` — โปรเจกต์ Web
 
-## Notes
+## หมายเหตุ
 
-Do not commit private service-account keys, signing credentials, or local environment files. Firebase client configuration is included for this project; apply appropriate Firebase Security Rules and API restrictions for production.
+ห้าม commit service-account key, signing credentials หรือไฟล์ environment ที่มีข้อมูลลับ ไฟล์ตั้งค่า Firebase ฝั่งแอปถูกรวมไว้ในโปรเจกต์นี้แล้ว สำหรับการใช้งานจริง ควรตั้งค่า Firebase Security Rules และข้อจำกัด API ให้เหมาะสม
