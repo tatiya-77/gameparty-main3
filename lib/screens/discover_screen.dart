@@ -1,4 +1,4 @@
-/// หน้าค้นหาโพสต์หาเพื่อนเล่นเกม พร้อมตัวกรองและการส่งคำขอเข้าร่วมทีม.
+// หน้าค้นหาโพสต์หาเพื่อนเล่นเกม พร้อมตัวกรองและการส่งคำขอเข้าร่วมทีม.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

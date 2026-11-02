@@ -1,4 +1,4 @@
-/// อัปโหลดรูปภาพและวิดีโอไปยัง Cloudinary แล้วคืน secure URL ให้หน้าจอนำไปบันทึกใน Firestore.
+// อัปโหลดรูปภาพและวิดีโอไปยัง Cloudinary แล้วคืน secure URL ให้หน้าจอนำไปบันทึกใน Firestore.
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';

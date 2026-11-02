@@ -1,4 +1,4 @@
-/// หน้าผู้ดูแลระบบ: ตรวจสิทธิ์จากเอกสาร admins จัดการรายงานโพสต์ และดูรายชื่อสมาชิก.
+// หน้าผู้ดูแลระบบ: ตรวจสิทธิ์จากเอกสาร admins จัดการรายงานโพสต์ และดูรายชื่อสมาชิก.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

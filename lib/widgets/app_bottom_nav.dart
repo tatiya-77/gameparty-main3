@@ -1,4 +1,4 @@
-/// แถบนำทางด้านล่างที่รับ index ปัจจุบันและ callback จากหน้าหลัก.
+// แถบนำทางด้านล่างที่รับ index ปัจจุบันและ callback จากหน้าหลัก.
 import 'package:flutter/material.dart';
 
 /// รายการเมนูถูกกำหนดเป็นข้อมูลคู่ icon/label แล้ววาดตาม currentIndex.

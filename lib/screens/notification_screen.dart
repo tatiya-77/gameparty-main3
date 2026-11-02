@@ -1,4 +1,4 @@
-/// กล่องแจ้งเตือนในแอป อ่านข้อมูลแบบเรียลไทม์ ทำเครื่องหมายอ่าน และนำทางตามชนิดแจ้งเตือน.
+// กล่องแจ้งเตือนในแอป อ่านข้อมูลแบบเรียลไทม์ ทำเครื่องหมายอ่าน และนำทางตามชนิดแจ้งเตือน.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

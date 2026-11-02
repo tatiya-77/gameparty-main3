@@ -1,4 +1,4 @@
-/// แคชสำเนาโพสต์ใน SQLite เพื่ออ่านข้อมูลล่าสุดที่เคยโหลด โดย Firestore ยังคงเป็นแหล่งข้อมูลหลัก.
+// แคชสำเนาโพสต์ใน SQLite เพื่ออ่านข้อมูลล่าสุดที่เคยโหลด โดย Firestore ยังคงเป็นแหล่งข้อมูลหลัก.
 import 'dart:convert';
 
 import 'package:path/path.dart' as path;

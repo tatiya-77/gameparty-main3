@@ -1,4 +1,4 @@
-/// ฟังก์ชันช่วยแปลงเวลา Firestore/DateTime เป็นป้ายเวลาข้อความและหัวข้อแบ่งวันในแชต.
+// ฟังก์ชันช่วยแปลงเวลา Firestore/DateTime เป็นป้ายเวลาข้อความและหัวข้อแบ่งวันในแชต.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

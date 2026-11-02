@@ -1,4 +1,4 @@
-/// ปุ่มส่งคำขอเข้าร่วมทีม ซึ่งแสดงสถานะคำขอและป้องกันการส่งซ้ำระหว่างหน้าจอ.
+// ปุ่มส่งคำขอเข้าร่วมทีม ซึ่งแสดงสถานะคำขอและป้องกันการส่งซ้ำระหว่างหน้าจอ.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

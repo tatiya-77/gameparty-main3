@@ -1,4 +1,4 @@
-/// การ์ดโพสต์ที่ใช้แสดงข้อมูลทีม สื่อ ปฏิกิริยา และปุ่มดำเนินการซ้ำในหลายหน้าจอ.
+// การ์ดโพสต์ที่ใช้แสดงข้อมูลทีม สื่อ ปฏิกิริยา และปุ่มดำเนินการซ้ำในหลายหน้าจอ.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

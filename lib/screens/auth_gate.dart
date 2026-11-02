@@ -1,4 +1,4 @@
-/// ตัวคัดกรองสถานะบัญชีผู้ใช้ ฟัง Firebase Auth แล้วเลือกหน้าเข้าสู่ระบบหรือหน้าแอป.
+// ตัวคัดกรองสถานะบัญชีผู้ใช้ ฟัง Firebase Auth แล้วเลือกหน้าเข้าสู่ระบบหรือหน้าแอป.
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

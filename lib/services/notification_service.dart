@@ -1,4 +1,4 @@
-/// ลงทะเบียน FCM token ของอุปกรณ์ รับ push notification ขณะเปิดแอป และแสดง local notification.
+// ลงทะเบียน FCM token ของอุปกรณ์ รับ push notification ขณะเปิดแอป และแสดง local notification.
 import 'dart:async';
 import 'dart:convert';
 

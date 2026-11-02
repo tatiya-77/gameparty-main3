@@ -1,4 +1,4 @@
-/// ชุดเมธอดจัดการโพสต์ผ่าน Firestore แยกจาก widget (บางหน้าจอมี logic โพสต์ของตนเองด้วย).
+// ชุดเมธอดจัดการโพสต์ผ่าน Firestore แยกจาก widget (บางหน้าจอมี logic โพสต์ของตนเองด้วย).
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

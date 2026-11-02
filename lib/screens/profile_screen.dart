@@ -1,4 +1,4 @@
-/// หน้าโปรไฟล์ของตนเองหรือผู้ใช้อื่น รองรับแก้ข้อมูล ติดตาม แชต ดูโพสต์ และตั้งค่าความเป็นส่วนตัว.
+// หน้าโปรไฟล์ของตนเองหรือผู้ใช้อื่น รองรับแก้ข้อมูล ติดตาม แชต ดูโพสต์ และตั้งค่าความเป็นส่วนตัว.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

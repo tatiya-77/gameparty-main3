@@ -1,4 +1,4 @@
-/// ตัวแสดงรูปหรือวิดีโอแบบเต็มหน้าจอสำหรับสื่อที่แนบในแชต.
+// ตัวแสดงรูปหรือวิดีโอแบบเต็มหน้าจอสำหรับสื่อที่แนบในแชต.
 
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';

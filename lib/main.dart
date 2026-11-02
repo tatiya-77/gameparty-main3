@@ -1,4 +1,4 @@
-/// จุดเริ่มต้นของแอป: เตรียม Flutter, Firebase และระบบแจ้งเตือน ก่อนเปิดวิดเจ็ตหลักของ Game Party.
+// จุดเริ่มต้นของแอป: เตรียม Flutter, Firebase และระบบแจ้งเตือน ก่อนเปิดวิดเจ็ตหลักของ Game Party.
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

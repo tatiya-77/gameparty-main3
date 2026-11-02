@@ -1,4 +1,4 @@
-/// แปลงข้อมูลแจ้งเตือนดิบให้เป็นหัวข้อ ข้อความย่อย และไอคอนที่อ่านง่ายในหน้ากล่องแจ้งเตือน.
+// แปลงข้อมูลแจ้งเตือนดิบให้เป็นหัวข้อ ข้อความย่อย และไอคอนที่อ่านง่ายในหน้ากล่องแจ้งเตือน.
 import 'package:flutter/material.dart';
 
 /// Builds the user-facing title, icon, and body for an inbox notification.

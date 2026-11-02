@@ -1,4 +1,4 @@
-/// หน้าสนทนากลุ่ม จัดการข้อความ/สื่อ สมาชิก การแจ้งเตือน การลบประวัติ และการออกจากกลุ่ม.
+// หน้าสนทนากลุ่ม จัดการข้อความ/สื่อ สมาชิก การแจ้งเตือน การลบประวัติ และการออกจากกลุ่ม.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

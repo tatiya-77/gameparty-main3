@@ -1,4 +1,4 @@
-/// หน้ารวมแชตส่วนตัว แชตกลุ่ม และคำเชิญเข้าทีม รวมถึงค้นหาสมาชิกและตอบคำขอ.
+// หน้ารวมแชตส่วนตัว แชตกลุ่ม และคำเชิญเข้าทีม รวมถึงค้นหาสมาชิกและตอบคำขอ.
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
