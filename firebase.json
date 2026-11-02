@@ -1,0 +1,21 @@
+{
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "game-party-202",
+          "configurations": {
+            "android": "1:879265298109:android:d3b368b6cc47b317c0e9d4",
+            "web": "1:879265298109:web:d592016991e18004c0e9d4"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "functions": {
+    "source": "functions"
+  }
+}
