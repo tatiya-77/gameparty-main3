@@ -158,7 +158,11 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _isBusy = true);
 
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      final auth = FirebaseAuth.instance;
+      // ขอให้ Firebase เลือกภาษาของอีเมลรีเซ็ตรหัสผ่านเป็นภาษาไทย
+      await auth.setLanguageCode('th');
+      await auth.sendPasswordResetEmail(email: email);
+      debugPrint('Firebase Auth accepted a password reset email request.');
 
       if (!mounted) return;
 
@@ -167,6 +171,8 @@ class _LoginScreenState extends State<LoginScreen> {
         'กรุณาตรวจสอบกล่องจดหมายและ Spam',
       );
     } on FirebaseAuthException catch (e) {
+      // ไม่พิมพ์อีเมลลง log; เก็บเฉพาะรหัสและข้อความ error เพื่อช่วยวินิจฉัย
+      debugPrint('Password reset failed: ${e.code} - ${e.message}');
       if (!mounted) return;
 
       String message;
